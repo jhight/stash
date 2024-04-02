@@ -2,7 +2,7 @@ package com.jhight.stash
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import com.jhight.stash.crypto.AndroidKeystoreCryptoProvider
+import com.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
 import com.jhight.stash.crypto.CryptoProvider
 import com.jhight.stash.serializer.StashSerializer
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +29,7 @@ import java.io.File
 
 class Stash(
     private val file: File,
-    cryptoProvider: CryptoProvider = AndroidKeystoreCryptoProvider(),
+    cryptoProvider: CryptoProvider = Aes256AndroidKeystoreCryptoProvider(),
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ) : DataStore<JsonElement> {
     val store = DataStoreFactory.create(

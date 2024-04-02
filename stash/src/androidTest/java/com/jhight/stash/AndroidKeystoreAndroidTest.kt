@@ -2,7 +2,7 @@ package com.jhight.stash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jhight.stash.crypto.AndroidKeystoreCryptoProvider
+import com.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -91,7 +91,7 @@ class AndroidKeystoreAndroidTest {
     fun testEncryption(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = AndroidKeystoreCryptoProvider()
+        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider()
         val stash = Stash(file, cryptoProvider)
 
         @Serializable

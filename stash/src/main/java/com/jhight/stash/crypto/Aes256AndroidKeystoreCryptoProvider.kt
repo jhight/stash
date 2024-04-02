@@ -9,15 +9,14 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 private const val DEFAULT_KEY_ALIAS = "com.jhight.stash.key"
-private const val DEFAULT_KEY_SIZE = 256
+private const val KEY_SIZE = 256
 
 /**
  * An AES-256 [CryptoProvider] implementation, built around Android's Keystore mechanism. Keys are
  * stored and retrieved by a key alias, or generated if not found.
  */
-class AndroidKeystoreCryptoProvider(
+class Aes256AndroidKeystoreCryptoProvider(
     private val keyAlias: String = DEFAULT_KEY_ALIAS,
-    private val keySize: Int = DEFAULT_KEY_SIZE
 ) : CryptoProvider {
     private var _key: SecretKey? = null
 
@@ -45,7 +44,7 @@ class AndroidKeystoreCryptoProvider(
         )
             .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-            .setKeySize(keySize)
+            .setKeySize(KEY_SIZE)
             .setUserAuthenticationRequired(false)
             .build()
 
