@@ -58,11 +58,19 @@ class JsonElementTest {
         stash.write("b", 120.94)
         stash.write("c", 3)
         stash.write("d", true)
+        stash.write("e", listOf(1, 2, 3))
+        stash.write("f", mapOf("x" to 1, "y" to 2, "z" to 3))
+        stash.write("g", Json.parseToJsonElement("{ \"x\": 1, \"y\": 2, \"z\": 3 }"))
+        stash.write<String?>("h", null)
 
         assertEquals("Hello, world!", stash.get<String>("a"))
         assertEquals(120.94, stash.get<Double>("b"))
         assertEquals(3, stash.get<Int>("c"))
         assertTrue(stash.get<Boolean>("d") ?: false)
+        assertEquals(listOf(1, 2, 3), stash.get<List<Int>>("e"))
+        assertEquals(mapOf("x" to 1, "y" to 2, "z" to 3), stash.get<Map<String, Int>>("f"))
+        assertEquals(mapOf("x" to 1, "y" to 2, "z" to 3), stash.get<Map<String, Int>>("g"))
+        assertNull(stash.get<String?>("h"))
     }
 
     @Test

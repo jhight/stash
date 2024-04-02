@@ -69,13 +69,7 @@ class Stash(
         }
     }
 
-    suspend fun write(key: String, value: String) = write(key, JsonPrimitive(value))
-    suspend fun write(key: String, value: Int) = write(key, JsonPrimitive(value))
-    suspend fun write(key: String, value: Double) = write(key, JsonPrimitive(value))
-    suspend fun write(key: String, value: Float) = write(key, JsonPrimitive(value))
-    suspend fun write(key: String, value: Boolean) = write(key, JsonPrimitive(value))
-    suspend fun write(key: String, value: List<*>) = write(key, Json.encodeToJsonElement(value))
-    suspend fun write(key: String, value: Map<*, *>) = write(key, Json.encodeToJsonElement(value))
+    suspend inline fun <reified T> write(key: String, value: T) = write(key, value.serialize())
 
     suspend inline fun <reified T> read(crossinline handler: (T) -> Unit) =
         withContext(Dispatchers.IO) {
