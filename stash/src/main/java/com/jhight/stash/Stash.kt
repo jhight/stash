@@ -86,17 +86,6 @@ class Stash(
         return store.data.firstOrNull()?.jsonObject?.get(key)
     }
 
-    suspend fun getString(key: String) =
-        if (getJsonElement(key)?.jsonPrimitive?.isString == true) {
-            getJsonElement(key)?.jsonPrimitive?.contentOrNull
-        } else {
-            null
-        }
-
-    suspend fun getInt(key: String) = getJsonElement(key)?.jsonPrimitive?.intOrNull
-    suspend fun getDouble(key: String) = getJsonElement(key)?.jsonPrimitive?.doubleOrNull
-    suspend fun getFloat(key: String) = getJsonElement(key)?.jsonPrimitive?.floatOrNull
-    suspend fun getBoolean(key: String) = getJsonElement(key)?.jsonPrimitive?.booleanOrNull
     suspend inline fun <reified T> get(key: String) = getJsonElement(key)?.let { Json.decodeFromJsonElement<T>(it) }
 
     suspend inline fun <reified T> edit(crossinline transform: (T) -> Unit) {
