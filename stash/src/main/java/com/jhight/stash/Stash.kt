@@ -129,7 +129,6 @@ fun JsonElement.int(key: String) = this.jsonObject[key]?.jsonPrimitive?.intOrNul
 fun JsonElement.double(key: String) = this.jsonObject[key]?.jsonPrimitive?.doubleOrNull
 fun JsonElement.float(key: String) = this.jsonObject[key]?.jsonPrimitive?.floatOrNull
 fun JsonElement.boolean(key: String) = this.jsonObject[key]?.jsonPrimitive?.booleanOrNull
-fun JsonElement.stringOrNull(key: String) = this.jsonObject[key]?.jsonPrimitive?.contentOrNull
 
 fun JsonObject.edit(transform: (MutableMap<String, JsonElement>) -> Unit): JsonObject =
     toMutableMap().let {
