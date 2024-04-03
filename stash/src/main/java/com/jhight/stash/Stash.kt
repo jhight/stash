@@ -32,10 +32,10 @@ import java.io.File
  *
  * Example usage:
  * ```
- * // Create a Stash instance
+ * // open a stash
  * val stash = Stash(File(context.dataDir, "data.stash"))
  *
- * // declare a Serializable data class
+ * // declare a Serializable type
  * @Serializable
  * data class Account(
  *    val userId: String,
