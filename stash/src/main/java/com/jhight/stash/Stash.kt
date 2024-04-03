@@ -55,13 +55,13 @@ import java.io.File
  * stash.put("userId", "user-12345")
  * stash.put("balance", 99.50)
  *
- * // to read the data back, use the read function
+ * // read the entire contents of the stash
  * stash.get<Account> {
  *    println(it.userId)
  *    println(it.balance)
 *  }
  *
- * // or, you can read individual properties
+ * // or, read individual properties
  * val userId = stash.get<String>("userId")
  * val balance = stash.get<Double>("balance")
  * ```

@@ -27,12 +27,13 @@ data class Account(
     val balance: Double
 )
 
-// to read the data back, use the read function
+// read the entire contents of the stash
 stash.get<Account> {
     println(it.userId)
     println(it.balance)
 }
-// or, you can read individual properties
+
+// or, read individual properties
 val userId = stash.get<String>("userId")
 val balance = stash.get<Double>("balance")
 ```
