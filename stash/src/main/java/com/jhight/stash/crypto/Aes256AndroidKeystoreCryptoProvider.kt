@@ -12,8 +12,11 @@ private const val DEFAULT_KEY_ALIAS = "com.jhight.stash.key"
 private const val KEY_SIZE = 256
 
 /**
- * An AES-256 [CryptoProvider] implementation, built around Android's Keystore mechanism. Keys are
+ * An AES-256 [CryptoProvider] implementation, built around Android's Keystore system. Keys are
  * stored and retrieved by a key alias, or generated if not found.
+ *
+ * @param keyAlias The alias to use for the key in the Android Keystore. Defaults to `"com.jhight.stash.key"`.
+ * @param keyPassword The password to use for the key in the Android Keystore. Defaults to `null`.
  */
 class Aes256AndroidKeystoreCryptoProvider(
     private val keyAlias: String = DEFAULT_KEY_ALIAS,

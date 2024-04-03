@@ -24,7 +24,7 @@ val stash = Stash(file)
 val stash = Stash(file, Aes256AndroidKeystoreCryptoProvider("myKeyAlias"))
 
 // reads contents into profile
-stash.read<Profile> { profile ->
+stash.get<Profile> { profile ->
   println("Username: ${profile.username}")
 }
 
@@ -39,9 +39,9 @@ Likewise, writing to a stash can either be done all at once via a @Serializable 
 val profile = Profile("jdoe", 12345)
 
 // because Stash is a DataStore, writes are done atomically
-stash.write(profile)
+stash.put(profile)
 
 // or, if you'd rather write individual properties
-stash.write("username", "jdoe")
-stash.write("accountId", 12345)
+stash.put("username", "jdoe")
+stash.put("accountId", 12345)
 ```

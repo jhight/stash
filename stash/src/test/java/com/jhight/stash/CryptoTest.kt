@@ -34,9 +34,9 @@ class CryptoTest {
             a = "Hello, world!",
         )
 
-        stash.write(data)
+        stash.put(data)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
         }
 
@@ -45,7 +45,7 @@ class CryptoTest {
         stash = Stash(file, Aes128CryptoProvider())
 
         try {
-            stash.read<Data> {
+            stash.get<Data> {
                 TestCase.fail()
             }
         } catch (e: Throwable) {

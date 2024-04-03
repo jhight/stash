@@ -37,9 +37,9 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
-        stash.read<JsonElement> {
+        stash.get<JsonElement> {
             assertEquals("Hello, world!", it.jsonObject["a"]?.jsonPrimitive?.content)
             assertEquals(120.94, it.jsonObject["b"]?.jsonPrimitive?.double)
             assertEquals(3, it.jsonObject["c"]?.jsonPrimitive?.int)
@@ -54,14 +54,14 @@ class JsonElementTest {
             Aes128CryptoProvider()
         )
 
-        stash.write("a", "Hello, world!")
-        stash.write("b", 120.94)
-        stash.write("c", 3)
-        stash.write("d", true)
-        stash.write("e", listOf(1, 2, 3))
-        stash.write("f", mapOf("x" to 1, "y" to 2, "z" to 3))
-        stash.write("g", Json.parseToJsonElement("{ \"x\": 1, \"y\": 2, \"z\": 3 }"))
-        stash.write<String?>("h", null)
+        stash.put("a", "Hello, world!")
+        stash.put("b", 120.94)
+        stash.put("c", 3)
+        stash.put("d", true)
+        stash.put("e", listOf(1, 2, 3))
+        stash.put("f", mapOf("x" to 1, "y" to 2, "z" to 3))
+        stash.put("g", Json.parseToJsonElement("{ \"x\": 1, \"y\": 2, \"z\": 3 }"))
+        stash.put<String?>("h", null)
 
         assertEquals("Hello, world!", stash.get<String>("a"))
         assertEquals(120.94, stash.get<Double>("b"))
@@ -90,7 +90,7 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
         assertEquals("Hello, world!", stash.get<String>("a"))
         assertEquals(listOf(1, 2, 3), stash.get<List<Int>>("b"))
@@ -119,7 +119,7 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
         assertEquals("Hello, world!", stash.get<String>("a"))
         assertEquals(mapOf("x" to 120, "y" to 3), stash.get<Map<String, Int>>("b"))
@@ -143,9 +143,9 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
-        stash.read<JsonElement> {
+        stash.get<JsonElement> {
             assertEquals("Hello, world!", it.string("a"))
             assertEquals(120.94, it.double("b"))
             assertEquals(3, it.int("c"))
@@ -156,7 +156,7 @@ class JsonElementTest {
 
         stash = Stash(file, cryptoProvider)
 
-        stash.read<JsonElement> {
+        stash.get<JsonElement> {
             assertEquals("Hello, world!", it.string("a"))
             assertEquals(120.94, it.double("b"))
             assertEquals(3, it.int("c"))
@@ -180,13 +180,13 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
-        stash.write(json.jsonObject.edit {
+        stash.put(json.jsonObject.edit {
             it["a"] = JsonPrimitive("Goodbye, world!")
         })
 
-        stash.read<JsonElement> {
+        stash.get<JsonElement> {
             assertFalse(it.string("a") == "Hello, world!")
             assertEquals("Goodbye, world!", it.string("a"))
             assertEquals(120.94, it.double("b"))
@@ -217,15 +217,15 @@ class JsonElementTest {
             """.trimIndent()
         )
 
-        stash.write(json1)
+        stash.put(json1)
 
         try {
-            stash.write(json2)
+            stash.put(json2)
         } catch (e: Throwable) {
             fail()
         }
 
-        stash.read<JsonElement> {
+        stash.get<JsonElement> {
             assertNull(it.string("a"))
             assertNull(it.double("b"))
             assertFalse(it.string("c") == "Hello, world!")

@@ -34,9 +34,9 @@ class SerializableTest {
             d = true,
         )
 
-        stash.write(data)
+        stash.put(data)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
             assertEquals(120.94, it.b)
             assertEquals(3, it.c)
@@ -66,7 +66,7 @@ class SerializableTest {
             d = true,
         )
 
-        stash.write(data)
+        stash.put(data)
 
         assertEquals(120.94, stash.get<Double>("b"))
     }
@@ -92,9 +92,9 @@ class SerializableTest {
             d = true,
         )
 
-        stash.write(data)
+        stash.put(data)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
             assertEquals(120.94, it.b)
             assertEquals(3, it.c)
@@ -105,7 +105,7 @@ class SerializableTest {
 
         stash = Stash(file, cryptoProvider)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
             assertEquals(120.94, it.b)
             assertEquals(3, it.c)
@@ -130,7 +130,7 @@ class SerializableTest {
             """.trimIndent()
         )
 
-        stash.write(json)
+        stash.put(json)
 
         @Serializable
         data class Data(
@@ -140,7 +140,7 @@ class SerializableTest {
             val d: Boolean,
         )
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
             assertEquals(120.94, it.b)
             assertEquals(3, it.c)
@@ -168,13 +168,13 @@ class SerializableTest {
             b = 120.94,
         )
 
-        stash.write(data)
+        stash.put(data)
 
         data.a = "Goodbye, world!"
 
-        stash.write(data)
+        stash.put(data)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertFalse(it.a == "Hello, world!")
             assertEquals("Goodbye, world!", it.a)
             assertEquals(120.94, it.b)
@@ -199,9 +199,9 @@ class SerializableTest {
             b = 120.94,
         )
 
-        stash.write(data)
+        stash.put(data)
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertEquals("Hello, world!", it.a)
         }
 
@@ -209,7 +209,7 @@ class SerializableTest {
             it.a = "Goodbye, world!"
         }
 
-        stash.read<Data> {
+        stash.get<Data> {
             assertFalse(it.a == "Hello, world!")
             assertEquals("Goodbye, world!", it.a)
             assertEquals(120.94, it.b)
@@ -237,17 +237,47 @@ class SerializableTest {
         val data1 = Data1("Hello, world!", 120.94)
         val data2 = Data2("Goodbye, world!")
 
-        stash.write(data1)
+        stash.put(data1)
 
         try {
-            stash.write(data2)
+            stash.put(data2)
         } catch (e: Throwable) {
             fail()
         }
 
-        stash.read<Data2> {
+        stash.get<Data2> {
             assertFalse(it.c == "Hello, world!")
             assertEquals("Goodbye, world!", it.c)
+        }
+    }
+
+    @Test
+    fun `test overwrite with same data in different types`() = runTest {
+        val file = File("/tmp/" + System.nanoTime() + ".stash")
+        val cryptoProvider = Aes128CryptoProvider()
+        var stash = Stash(file, cryptoProvider)
+
+        @Serializable
+        data class Data1(
+            val a: String,
+            val b: Double,
+        )
+
+        val data1 = Data1("Hello, world!", 120.94)
+        stash.put(data1)
+        stash.close()
+
+        stash = Stash(file, cryptoProvider)
+
+        @Serializable
+        data class Data2(
+            val a: String,
+            val b: Double,
+        )
+
+        stash.get<Data2> {
+            assertEquals("Hello, world!", it.a)
+            assertEquals(120.94, it.b)
         }
     }
 
@@ -273,7 +303,7 @@ class SerializableTest {
             d = true,
         )
 
-        stash.write(data)
+        stash.put(data)
 
         try {
             assertEquals(120.94, stash.get<Int>("b"))
@@ -295,7 +325,7 @@ class SerializableTest {
         )
 
         try {
-            stash.write(Data("Hello, world!"))
+            stash.put(Data("Hello, world!"))
             fail()
         } catch (e: IllegalArgumentException) {
             assertEquals("Must be @Serializable", e.message)
@@ -314,7 +344,44 @@ class SerializableTest {
         )
 
         try {
-            stash.read<Data> {
+            stash.get<Data> {
+                fail()
+            }
+        } catch (e: IllegalArgumentException) {
+            assertEquals("Must be @Serializable", e.message)
+        }
+    }
+
+    @Test
+    fun `test attempt to edit non-serializable data fails`() = runTest {
+        val file = File("/tmp/" + System.nanoTime() + ".stash")
+        val cryptoProvider = Aes128CryptoProvider()
+        var stash = Stash(file, cryptoProvider)
+
+        @Serializable
+        data class SerializableData(
+            val a: String,
+            val b: Double,
+        )
+
+        val data = SerializableData(
+            a = "Hello, world!",
+            b = 120.94,
+        )
+
+        stash.put(data)
+
+        stash.close()
+
+        stash = Stash(file, cryptoProvider)
+
+        data class NonSerializableData(
+            val a: String,
+            val b: Double,
+        )
+
+        try {
+            stash.edit<NonSerializableData> {
                 fail()
             }
         } catch (e: IllegalArgumentException) {

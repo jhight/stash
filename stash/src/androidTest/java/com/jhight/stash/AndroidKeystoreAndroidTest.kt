@@ -56,9 +56,9 @@ class AndroidKeystoreAndroidTest {
             h = Data2(null, 2.7f, 3.25)
         )
 
-        stash.write(data1)
+        stash.put(data1)
 
-        stash.read<Data1> {
+        stash.get<Data1> {
             assertEquals("Hello, world!", it.a)
             assertEquals(120.94, it.b)
             assertEquals(3, it.c)
@@ -99,7 +99,7 @@ class AndroidKeystoreAndroidTest {
             val secret: String
         )
 
-        stash.write(Data("This is a secret message."))
+        stash.put(Data("This is a secret message."))
 
         assertTrue(file.exists())
         assertTrue(file.canRead())
@@ -124,7 +124,7 @@ class AndroidKeystoreAndroidTest {
             val secret: String
         )
 
-        stash.write(Data("This is a secret message."))
+        stash.put(Data("This is a secret message."))
 
         assertTrue(file.exists())
         assertTrue(file.canRead())
