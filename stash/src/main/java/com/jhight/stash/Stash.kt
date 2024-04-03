@@ -32,8 +32,14 @@ import java.io.File
  *
  * Example usage:
  * ```
- * // open a stash
+ * // open a stash, uses an AES-256 cipher with a default key managed by Android Keystore
  * val stash = Stash(File(context.dataDir, "data.stash"))
+ *
+ * // or, if you'd rather use a specific key
+ * val stash = Stash(
+ *     File(context.dataDir, "data.stash"),
+ *     Aes256AndroidKeystoreCryptoProvider("myKeyAlias", "keyPassword")
+ * )
  *
  * // declare a Serializable type
  * @Serializable
