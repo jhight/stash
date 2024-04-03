@@ -88,7 +88,7 @@ class AndroidKeystoreAndroidTest {
     }
 
     @Test
-    fun testEncryption(): Unit = runTest {
+    fun testEncryptionDefaults(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
         val cryptoProvider = Aes256AndroidKeystoreCryptoProvider()
@@ -110,5 +110,35 @@ class AndroidKeystoreAndroidTest {
 
         val plaintext = cryptoProvider.decrypt(file.readBytes()).toString(Charsets.UTF_8)
         assertEquals("""{"secret":"This is a secret message."}""", plaintext)
+    }
+
+    @Test
+    fun testEncryptionWithKeyAndPassword(): Unit = runTest {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
+        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password")
+        var stash = Stash(file, cryptoProvider)
+
+        @Serializable
+        data class Data(
+            val secret: String
+        )
+
+        stash.write(Data("This is a secret message."))
+
+        assertTrue(file.exists())
+        assertTrue(file.canRead())
+
+        val encryptedData = file.readText()
+        assertNotNull(encryptedData)
+        Assert.assertNotEquals("""{"secret":"This is a secret message."}""", encryptedData)
+
+        val plaintext = cryptoProvider.decrypt(file.readBytes()).toString(Charsets.UTF_8)
+        assertEquals("""{"secret":"This is a secret message."}""", plaintext)
+
+        stash.close()
+
+        stash = Stash(file, Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password"))
+        assertEquals("This is a secret message.", stash.get<String>("secret"))
     }
 }

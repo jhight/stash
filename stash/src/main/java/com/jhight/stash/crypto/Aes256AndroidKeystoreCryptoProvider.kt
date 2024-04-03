@@ -17,6 +17,7 @@ private const val KEY_SIZE = 256
  */
 class Aes256AndroidKeystoreCryptoProvider(
     private val keyAlias: String = DEFAULT_KEY_ALIAS,
+    private val keyPassword: String? = null,
 ) : CryptoProvider {
     private var _key: SecretKey? = null
 
@@ -30,7 +31,7 @@ class Aes256AndroidKeystoreCryptoProvider(
         keyStore.load(null)
 
         if (keyStore.containsAlias(keyAlias)) {
-            return keyStore.getKey(keyAlias, null) as SecretKey
+            return keyStore.getKey(keyAlias, keyPassword?.toCharArray()) as SecretKey
         }
 
         val keyGenerator = KeyGenerator.getInstance(

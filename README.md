@@ -17,8 +17,11 @@ data class Profile (
     val accountId: Int
 )
 
-// uses an AES-256 cipher with a key managed by Android Keystore by default
-val stash = Stash(File("test.stash"))
+// uses an AES-256 cipher with a default key managed by Android Keystore
+val stash = Stash(file)
+
+// or, if you'd rather use a custom key
+val stash = Stash(file, Aes256AndroidKeystoreCryptoProvider("myKeyAlias"))
 
 // reads contents into profile
 stash.read<Profile> { profile ->

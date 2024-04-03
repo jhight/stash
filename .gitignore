@@ -135,6 +135,7 @@ fabric.properties
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/androidTestResultsUserPreferences.xml
+/.idea/deploymentTargetDropDown.xml
 /.idea/codeStyles
 .DS_Store
 /build
