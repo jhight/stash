@@ -46,9 +46,9 @@ android {
             publications {
                 create<MavenPublication>("release") {
                     from(components["release"])
-                    groupId = "com.jhight.stash"
+                    groupId = "com.jhight"
                     artifactId = "stash"
-                    version = "1.0.2"
+                    version = "1.0.3"
                 }
             }
         }
