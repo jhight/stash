@@ -99,7 +99,7 @@ def create_release(tag, previous_tag):
     data = {
         'tag_name': tag['name'],
         'target_commitish': 'main',
-        'name': name,
+        'name': tag['name'],
         'body': body,
     }
 
