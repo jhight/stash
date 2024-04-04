@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     print(f"Attaching {aar_path} to release {latest_release['name']} as '{latest_release['name']}.aar'")
 
-    upload_url = latest_release['upload_url'].split('{', 1)[0] + f'?name={latest_release['name']}.aar'
+    upload_url = latest_release['upload_url'].split('{', 1)[0] + f'?name={latest_release["name"]}.aar'
 
     print(f"Uploading to {upload_url}")
 
