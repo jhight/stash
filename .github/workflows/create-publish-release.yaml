@@ -1,0 +1,73 @@
+name: Create GitHub release from latest tag, if new
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VERSION: 'Undefined'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt install -y libncurses5 jq curl
+
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Parse version from latest tag
+        run: echo VERSION=`git tag --list | tail -n 1` >> $GITHUB_ENV
+        shell: bash
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Add version to gradle.properties
+        run: |
+          echo "VERSION_NAME=${{env.VERSION}}" | cat >>gradle.properties
+        shell: bash
+
+      - name: Build application package
+        id: build
+        run: ./gradlew assembleRelease
+
+      - name: Create release
+        id: create_release
+        if: steps.build.outcome == 'success'
+        run: python3 .github/scripts/create_release_from_tag.py
+        env:
+          GITHUB_REPOSITORY: ${{github.repository}}
+          GITHUB_TOKEN: ${{github.token}}
+
+      - name: Verify release created
+        id: verify_create_release
+        run: echo RELEASE_CREATED=`cat release_created` >> $GITHUB_ENV
+        shell: bash
+
+      - name: Attach build to release
+        id: attach_build
+        if: env.RELEASE_CREATED == '1'
+        run: python3 .github/scripts/attach_build_asset.py
+        env:
+          GITHUB_REPOSITORY: ${{github.repository}}
+          GITHUB_TOKEN: ${{github.token}}
+
+      - name: Verify build attached
+        id: verify_build_attached
+        run: echo BUILD_ATTACHED=`cat build_attached` >> $GITHUB_ENV
+        shell: bash
+
+      - name: Publish artifacts
+        run: ./gradlew publishAllPublicationsToMavenCentral
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}

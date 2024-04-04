@@ -1,7 +1,9 @@
 plugins {
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialization)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.jetbrains.dokka)
 }
 
 android {
@@ -31,6 +33,11 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    mavenPublishing {
+        publishToMavenCentral()
+        signAllPublications()
     }
 }
 
