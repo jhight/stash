@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -36,7 +38,7 @@ android {
     }
 
     mavenPublishing {
-        publishToMavenCentral()
+        publishToMavenCentral(SonatypeHost.S01)
         signAllPublications()
     }
 }
