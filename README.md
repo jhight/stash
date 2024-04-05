@@ -6,45 +6,44 @@
 </p>
 
 ## About
-Stash is a tiny, encrypted Android DataStore that makes it easy to securely store small amounts of sensitive data using the Android Keystore system. Under the hood, stash serializes data into JSON via [`kotlinx.serialization`](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md).
+Stash is a tiny Android DataStore that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens. 
 
 ## Reading
-You can either read the entire contents of a stash into a @Serializable or read individual properties. Because all data is serialized prior to encryption, you can use the two approaches interchangeably.
+You can get the entire contents of a stash into a `@Serializable` or get individual properties. The two approaches can be used interchangeably.
 ```kotlin
 // open a stash, uses an AES-256 cipher with a default key managed by Android Keystore
 val stash = Stash(File(context.dataDir, "data.stash"))
 
-// or, if you'd rather use a specific key
+// or, if you need to use a specific key
 val stash = Stash(
     File(context.dataDir, "data.stash"),
     Aes256AndroidKeystoreCryptoProvider("myKeyAlias", "keyPassword")
 )
 
-// declare a Serializable type
 @Serializable
 data class Account(
     val userId: String,
     val balance: Double
 )
 
-// read the entire contents of the stash
+// get entire contents of the stash
 stash.get<Account> {
     println(it.userId)
     println(it.balance)
 }
 
-// or, read individual properties
+// or, get individual properties
 val userId = stash.get<String>("userId")
 val balance = stash.get<Double>("balance")
 ```
 
 ## Writing
-Likewise, writing to a stash can either be done all at once via a @Serializable or by writing individual properties.
+Likewise, putting data into a stash can either be done via a `@Serializable` or by individual properties.
 ```kotlin
-// write the object's contents to the stash
+// put the object's contents into stash
 stash.put(Account("user-12345", 99.50))
 
-// alternative, equivalent to the example above
+// equivalent to example above
 stash.put("userId", "user-12345")
 stash.put("balance", 99.50)
 ```
