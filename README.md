@@ -24,6 +24,20 @@ dependencies {
 }
 ```
 
+Also, make sure the app module configured to use Java 17.
+```gradle
+android {
+    // ...
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+```
+
 ## Reading
 You can get the entire contents of a stash into a `@Serializable` or get individual properties. The two approaches can be used interchangeably.
 ```kotlin
