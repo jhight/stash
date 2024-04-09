@@ -9,7 +9,7 @@ env:
   VERSION: 'Undefined'
 
 jobs:
-  build:
+  create_release:
     runs-on: ubuntu-latest
     steps:
       - name: Install dependencies
@@ -53,7 +53,7 @@ jobs:
       - name: Attach build to release
         id: attach_build
         if: env.RELEASE_CREATED == '1'
-        run: python3 .github/scripts/attach_build_asset.py
+        run: python3 .github/scripts/attach_release_asset.py
         env:
           GITHUB_REPOSITORY: ${{github.repository}}
           GITHUB_TOKEN: ${{github.token}}
@@ -62,22 +62,3 @@ jobs:
         id: verify_build_attached
         run: echo BUILD_ATTACHED=`cat build_attached` >> $GITHUB_ENV
         shell: bash
-
-      - name: Publish artifacts
-        run: ./gradlew publishAllPublicationsToMavenCentral
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-
-  sign:
-    needs: build
-    runs-on: ubuntu-latest
-    #
-
-  publish:
-    needs: sign
-    runs-on: ubuntu-latest
-    #
