@@ -1,12 +1,6 @@
 package com.jhight.stash
 
-import com.jhight.stash.Stash
-import com.jhight.stash.boolean
-import com.jhight.stash.double
-import com.jhight.stash.edit
-import com.jhight.stash.int
-import com.jhight.stash.string
-import com.jhight.stash.crypto.Aes128CryptoProvider
+import com.jhight.stash.crypto.SimpleCryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull
@@ -29,7 +23,7 @@ class JsonElementTest {
     fun `test write and read json object`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         val json = Json.parseToJsonElement(
@@ -57,7 +51,7 @@ class JsonElementTest {
     fun `test write and read individual json elements`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         stash.put("a", "Hello, world!")
@@ -83,7 +77,7 @@ class JsonElementTest {
     fun `test write and read json arrays`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         val json = Json.parseToJsonElement(
@@ -107,7 +101,7 @@ class JsonElementTest {
     fun `test write and read nested json objects of same type`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         val json = Json.parseToJsonElement(
@@ -135,7 +129,7 @@ class JsonElementTest {
     @Test
     fun `test write read close and re-read`() = runTest {
         val file = File("/tmp/" + System.nanoTime() + ".stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         var stash = Stash(file, cryptoProvider)
 
         val json = Json.parseToJsonElement(
@@ -174,7 +168,7 @@ class JsonElementTest {
     fun `test write edit and read`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         val json = Json.parseToJsonElement(
@@ -203,7 +197,7 @@ class JsonElementTest {
     fun `test overwrite with different data`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         val json1 = Json.parseToJsonElement(

@@ -2,7 +2,11 @@
     <img width="128" src="icon.png" align="center" alt="Stash" />
     <h1 align="center">stash</h1>
     <p align="center">An encrypted Android DataStore for storing small amounts of sensitive data.</p>
-    <p align="center"><a href="https://jitpack.io/#com.jhight/stash"><img src="https://jitpack.io/v/com.jhight/stash.svg" alt="Release"/></a></p>
+    <p align="center">
+        <a href="https://jitpack.io/#com.jhight/stash"><img src="https://jitpack.io/v/com.jhight/stash.svg" alt="Release"/></a>
+        &nbsp;
+        <a href="https://github.com/jhight/stash/actions/workflows/unit-tests.yaml"><img src="https://github.com/jhight/stash/actions/workflows/unit-tests.yaml/badge.svg" alt="Unit Tests"/></a>
+    </p>
     <p><br/></p>
 </p>
 
@@ -47,7 +51,7 @@ val stash = Stash(File(context.dataDir, "data.stash"))
 // or, if you need to use a specific key
 val stash = Stash(
     File(context.dataDir, "data.stash"),
-    Aes256AndroidKeystoreCryptoProvider("myKeyAlias", "keyPassword")
+    Aes256KeystoreCryptoProvider("myKeyAlias", "keyPassword")
 )
 
 @Serializable

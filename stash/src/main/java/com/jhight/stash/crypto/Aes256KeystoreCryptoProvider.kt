@@ -18,7 +18,7 @@ private const val KEY_SIZE = 256
  * @param keyAlias The alias to use for the key in the Android Keystore. Defaults to `"com.jhight.stash.key"`.
  * @param keyPassword The password to use for the key in the Android Keystore. Defaults to `null`.
  */
-class Aes256AndroidKeystoreCryptoProvider(
+class Aes256KeystoreCryptoProvider(
     private val keyAlias: String = DEFAULT_KEY_ALIAS,
     private val keyPassword: String? = null,
 ) : CryptoProvider {

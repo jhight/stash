@@ -1,7 +1,6 @@
 package com.jhight.stash
 
-import com.jhight.stash.Stash
-import com.jhight.stash.crypto.Aes128CryptoProvider
+import com.jhight.stash.crypto.SimpleCryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -17,7 +16,7 @@ class SerializableTest {
     fun `test write and read`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -49,7 +48,7 @@ class SerializableTest {
     fun `test write and read single property`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -75,7 +74,7 @@ class SerializableTest {
     @Test
     fun `test write read close and re-read`() = runTest {
         val file = File("/tmp/" + System.nanoTime() + ".stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         var stash = Stash(file, cryptoProvider)
 
         @Serializable
@@ -117,7 +116,7 @@ class SerializableTest {
     @Test
     fun `test write json and read as serializable`() = runTest {
         val file = File("/tmp/" + System.nanoTime() + ".stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         val stash = Stash(file, cryptoProvider)
 
         val json = Json.parseToJsonElement(
@@ -155,7 +154,7 @@ class SerializableTest {
     fun `test write edit single property and read`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -186,7 +185,7 @@ class SerializableTest {
     fun `test write edit and read`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -221,7 +220,7 @@ class SerializableTest {
     fun `test overwrite with different data`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -255,7 +254,7 @@ class SerializableTest {
     @Test
     fun `test overwrite with same data in different types`() = runTest {
         val file = File("/tmp/" + System.nanoTime() + ".stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         var stash = Stash(file, cryptoProvider)
 
         @Serializable
@@ -286,7 +285,7 @@ class SerializableTest {
     fun `test write and read incorrectly typed property fails`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         @Serializable
@@ -318,7 +317,7 @@ class SerializableTest {
     fun `test attempt to write non-serializable data fails`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         data class Data(
@@ -337,7 +336,7 @@ class SerializableTest {
     fun `test attempt to read non-serializable data fails`() = runTest {
         val stash = Stash(
             File("/tmp/" + System.nanoTime() + ".stash"),
-            Aes128CryptoProvider()
+            SimpleCryptoProvider()
         )
 
         data class Data(
@@ -356,7 +355,7 @@ class SerializableTest {
     @Test
     fun `test attempt to edit non-serializable data fails`() = runTest {
         val file = File("/tmp/" + System.nanoTime() + ".stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         var stash = Stash(file, cryptoProvider)
 
         @Serializable

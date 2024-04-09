@@ -2,7 +2,7 @@ package com.jhight.stash
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import com.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
+import com.jhight.stash.crypto.Aes256KeystoreCryptoProvider
 import com.jhight.stash.crypto.CryptoProvider
 import com.jhight.stash.serializer.StashSerializer
 import kotlinx.coroutines.CoroutineScope
@@ -38,7 +38,7 @@ import java.io.File
  * // or, if you'd rather use a specific key
  * val stash = Stash(
  *     File(context.dataDir, "data.stash"),
- *     Aes256AndroidKeystoreCryptoProvider("myKeyAlias", "keyPassword")
+ *     Aes256KeystoreCryptoProvider("myKeyAlias", "keyPassword")
  * )
  *
  * // declare a Serializable type
@@ -67,13 +67,13 @@ import java.io.File
  * ```
  *
  * @param file The file to store the data in.
- * @param cryptoProvider The [CryptoProvider] to use for encryption. By default, this is [Aes256AndroidKeystoreCryptoProvider], using a key with a default alias.
+ * @param cryptoProvider The [CryptoProvider] to use for encryption. By default, this is [Aes256KeystoreCryptoProvider], using a key with a default alias.
  * @param scope The [CoroutineScope] to use for the [DataStore]. By default, this is [Dispatchers.IO].
  * @see [DataStore]
  */
 class Stash(
     private val file: File,
-    cryptoProvider: CryptoProvider = Aes256AndroidKeystoreCryptoProvider(),
+    cryptoProvider: CryptoProvider = Aes256KeystoreCryptoProvider(),
     private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO),
 ) : DataStore<JsonElement> {
     /**
