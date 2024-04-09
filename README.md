@@ -38,7 +38,7 @@ android {
 
 dependencies {
     // ...
-    implementation 'com.jhight:stash:<version>'
+    implementation 'com.jhight:stash:1.0.16'
 }
 ```
 
