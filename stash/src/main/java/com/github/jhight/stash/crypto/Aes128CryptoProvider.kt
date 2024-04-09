@@ -1,4 +1,4 @@
-package com.jhight.stash.crypto
+package com.github.jhight.stash.crypto
 
 import java.security.SecureRandom
 import javax.crypto.Cipher

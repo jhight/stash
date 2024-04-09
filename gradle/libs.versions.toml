@@ -18,6 +18,3 @@ kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-cor
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.25.3" }
-jetbrains-dokka = { id = "org.jetbrains.dokka", version = "1.9.0" }
-

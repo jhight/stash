@@ -71,3 +71,13 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+
+  sign:
+    needs: build
+    runs-on: ubuntu-latest
+    #
+
+  publish:
+    needs: sign
+    runs-on: ubuntu-latest
+    #

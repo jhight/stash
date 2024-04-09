@@ -1,10 +1,10 @@
-package com.jhight.stash
+package com.github.jhight.stash
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
-import com.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
-import com.jhight.stash.crypto.CryptoProvider
-import com.jhight.stash.serializer.StashSerializer
+import com.github.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
+import com.github.jhight.stash.crypto.CryptoProvider
+import com.github.jhight.stash.serializer.StashSerializer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

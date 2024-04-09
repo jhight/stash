@@ -1,16 +1,14 @@
-import com.vanniktech.maven.publish.SonatypeHost
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.maven.publish)
-    alias(libs.plugins.jetbrains.dokka)
+    id("maven-publish")
 }
 
 android {
     namespace = "com.jhight.stash"
     compileSdk = 34
+    version = run("git", "tag", "--list").split("\n").lastOrNull() ?: "0.0.0"
 
     defaultConfig {
         minSdk = 26
@@ -36,11 +34,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
-    mavenPublishing {
-        publishToMavenCentral(SonatypeHost.S01)
-        signAllPublications()
-    }
 }
 
 dependencies {
@@ -53,4 +46,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.test.runner)
     androidTestImplementation(libs.kotlinx.coroutines.test)
+}
+
+fun run(vararg command: String): String {
+    val process = ProcessBuilder(*command)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
+        .start()
+    process.waitFor()
+    return process.inputStream.bufferedReader().use { it.readText() }.trim()
 }
