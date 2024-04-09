@@ -13,18 +13,13 @@ Stash is a tiny Android DataStore that makes it easy to securely store small amo
 Make sure the project gradle includes jitpack repository.
 ```gradle
 repositories {
+    mavenCentral()
+    google()
     maven { url 'https://jitpack.io' }
 }
 ```
 
-Add the stash dependency to the app module.
-```gradle
-dependencies {
-    implementation 'com.jhight:stash:<version>'
-}
-```
-
-Also, make sure the app module configured to use Java 17.
+Add the stash dependency to the app module and configure for Java 17.
 ```gradle
 android {
     // ...
@@ -35,6 +30,11 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
+
+dependencies {
+    // ...
+    implementation 'com.jhight:stash:<version>'
 }
 ```
 
