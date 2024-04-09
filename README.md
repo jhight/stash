@@ -2,10 +2,9 @@
     <img width="128" src="icon.png" align="center" alt="Stash" />
     <h1 align="center">stash</h1>
     <p align="center">An encrypted Android DataStore for storing small amounts of sensitive data.</p>
+    <p align="center"><a href="https://jitpack.io/#com.jhight/stash"><img src="https://jitpack.io/v/com.jhight/stash.svg" alt="Release"/></a></p>
     <p><br/></p>
 </p>
-
-[![Release](https://jitpack.io/v/com.jhight/stash.svg)](https://jitpack.io/#com.jhight/stash)
 
 ## About
 Stash is a tiny Android DataStore that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens.
