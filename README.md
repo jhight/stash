@@ -47,7 +47,7 @@ val stash = Stash(File(context.dataDir, "data.stash"))
 // or, if you need to use a specific key
 val stash = Stash(
     File(context.dataDir, "data.stash"),
-    Aes256AndroidKeystoreCryptoProvider("myKeyAlias", "keyPassword")
+    Aes256KeystoreCryptoProvider("myKeyAlias", "keyPassword")
 )
 
 @Serializable

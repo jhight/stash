@@ -2,8 +2,7 @@ package com.jhight.stash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jhight.stash.Stash
-import com.jhight.stash.crypto.Aes128CryptoProvider
+import com.jhight.stash.crypto.SimpleCryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -20,13 +19,13 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class Aes128AndroidTest {
+class SimpleAndroidTest {
     @Test
     fun testWritesAndReads(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val stash = Stash(
             File(context.dataDir, "${System.currentTimeMillis()}.stash"),
-            Aes128CryptoProvider(),
+            SimpleCryptoProvider(),
         )
 
         @Serializable
@@ -85,7 +84,7 @@ class Aes128AndroidTest {
     fun testEncryption(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = Aes128CryptoProvider()
+        val cryptoProvider = SimpleCryptoProvider()
         val stash = Stash(file, cryptoProvider)
 
         @Serializable

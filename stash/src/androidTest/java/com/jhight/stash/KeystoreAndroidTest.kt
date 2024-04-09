@@ -2,8 +2,7 @@ package com.jhight.stash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.jhight.stash.Stash
-import com.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
+import com.jhight.stash.crypto.Aes256KeystoreCryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -20,7 +19,7 @@ import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class AndroidKeystoreAndroidTest {
+class KeystoreAndroidTest {
     @Test
     fun testWritesAndReads(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -92,7 +91,7 @@ class AndroidKeystoreAndroidTest {
     fun testEncryptionDefaults(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider()
+        val cryptoProvider = Aes256KeystoreCryptoProvider()
         val stash = Stash(file, cryptoProvider)
 
         @Serializable
@@ -117,7 +116,7 @@ class AndroidKeystoreAndroidTest {
     fun testEncryptionWithKeyAndPassword(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password")
+        val cryptoProvider = Aes256KeystoreCryptoProvider("test-key", "test-key-password")
         var stash = Stash(file, cryptoProvider)
 
         @Serializable
@@ -139,7 +138,7 @@ class AndroidKeystoreAndroidTest {
 
         stash.close()
 
-        stash = Stash(file, Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password"))
+        stash = Stash(file, Aes256KeystoreCryptoProvider("test-key", "test-key-password"))
         assertEquals("This is a secret message.", stash.get<String>("secret"))
     }
 }
