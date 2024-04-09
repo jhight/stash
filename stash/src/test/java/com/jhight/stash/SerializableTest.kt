@@ -1,7 +1,7 @@
-package com.github.jhight.stash
+package com.jhight.stash
 
-import com.github.jhight.stash.Stash
-import com.github.jhight.stash.crypto.Aes128CryptoProvider
+import com.jhight.stash.Stash
+import com.jhight.stash.crypto.Aes128CryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue

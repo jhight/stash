@@ -1,9 +1,9 @@
-package com.github.jhight.stash.serializer
+package com.jhight.stash.serializer
 
 import androidx.datastore.core.Serializer
 import androidx.datastore.preferences.protobuf.CodedOutputStream
-import com.github.jhight.stash.crypto.CryptoProvider
-import com.github.jhight.stash.serialize
+import com.jhight.stash.crypto.CryptoProvider
+import com.jhight.stash.serialize
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement

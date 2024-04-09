@@ -1,4 +1,4 @@
-package com.github.jhight.stash.crypto
+package com.jhight.stash.crypto
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

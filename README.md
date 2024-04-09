@@ -5,8 +5,25 @@
     <p><br/></p>
 </p>
 
+[![Release](https://jitpack.io/v/com.jhight/stash.svg)](https://jitpack.io/#com.jhight/stash)
+
 ## About
-Stash is a tiny Android DataStore that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens. 
+Stash is a tiny Android DataStore that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens.
+
+## Setup
+Make sure the project gradle includes jitpack repository.
+```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+```
+
+Add the stash dependency to the app module.
+```gradle
+dependencies {
+    implementation 'com.jhight:stash:<version>'
+}
+```
 
 ## Reading
 You can get the entire contents of a stash into a `@Serializable` or get individual properties. The two approaches can be used interchangeably.

@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.jhight.stash"
     compileSdk = 34
-    version = run("git", "tag", "--list").split("\n").lastOrNull() ?: "0.0.0"
 
     defaultConfig {
         minSdk = 26
@@ -33,6 +32,21 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                group = "com.jhight"
+                version = run("git", "tag", "--list").split("\n").lastOrNull() ?: "0.0.0"
+                description = "An encrypted Android DataStore for sensitive data"
+                groupId = "com.jhight"
+                artifactId = "stash"
+            }
+        }
     }
 }
 

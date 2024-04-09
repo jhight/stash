@@ -1,12 +1,12 @@
-package com.github.jhight.stash
+package com.jhight.stash
 
-import com.github.jhight.stash.Stash
-import com.github.jhight.stash.boolean
-import com.github.jhight.stash.double
-import com.github.jhight.stash.edit
-import com.github.jhight.stash.int
-import com.github.jhight.stash.string
-import com.github.jhight.stash.crypto.Aes128CryptoProvider
+import com.jhight.stash.Stash
+import com.jhight.stash.boolean
+import com.jhight.stash.double
+import com.jhight.stash.edit
+import com.jhight.stash.int
+import com.jhight.stash.string
+import com.jhight.stash.crypto.Aes128CryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNull

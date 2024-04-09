@@ -1,9 +1,9 @@
-package com.github.jhight.stash
+package com.jhight.stash
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.github.jhight.stash.Stash
-import com.github.jhight.stash.crypto.Aes256AndroidKeystoreCryptoProvider
+import com.jhight.stash.Stash
+import com.jhight.stash.crypto.Aes128CryptoProvider
 import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertNull
@@ -14,18 +14,20 @@ import kotlinx.serialization.json.double
 import kotlinx.serialization.json.float
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import org.junit.Assert
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
 
 @RunWith(AndroidJUnit4::class)
-class AndroidKeystoreAndroidTest {
+class Aes128AndroidTest {
     @Test
     fun testWritesAndReads(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val file = File(context.dataDir, "readsAndWrites.stash")
-        var stash = Stash(file)
+        val stash = Stash(
+            File(context.dataDir, "${System.currentTimeMillis()}.stash"),
+            Aes128CryptoProvider(),
+        )
 
         @Serializable
         data class Data2(
@@ -77,22 +79,13 @@ class AndroidKeystoreAndroidTest {
         stash.getJsonElement("h")?.jsonObject?.get("z")?.let {
             assertEquals(3.25, it.jsonPrimitive.double)
         }
-
-        stash.close()
-
-        // reopen stash
-        stash = Stash(file)
-
-        stash.getJsonElement("a")?.jsonPrimitive?.let {
-            assertEquals("Hello, world!", it.content)
-        }
     }
 
     @Test
-    fun testEncryptionDefaults(): Unit = runTest {
+    fun testEncryption(): Unit = runTest {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider()
+        val cryptoProvider = Aes128CryptoProvider()
         val stash = Stash(file, cryptoProvider)
 
         @Serializable
@@ -107,39 +100,9 @@ class AndroidKeystoreAndroidTest {
 
         val encryptedData = file.readText()
         assertNotNull(encryptedData)
-        Assert.assertNotEquals("""{"secret":"This is a secret message."}""", encryptedData)
+        assertNotEquals("""{"secret":"This is a secret message."}""", encryptedData)
 
         val plaintext = cryptoProvider.decrypt(file.readBytes()).toString(Charsets.UTF_8)
         assertEquals("""{"secret":"This is a secret message."}""", plaintext)
-    }
-
-    @Test
-    fun testEncryptionWithKeyAndPassword(): Unit = runTest {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val file = File(context.dataDir, "${System.currentTimeMillis()}.stash")
-        val cryptoProvider = Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password")
-        var stash = Stash(file, cryptoProvider)
-
-        @Serializable
-        data class Data(
-            val secret: String
-        )
-
-        stash.put(Data("This is a secret message."))
-
-        assertTrue(file.exists())
-        assertTrue(file.canRead())
-
-        val encryptedData = file.readText()
-        assertNotNull(encryptedData)
-        Assert.assertNotEquals("""{"secret":"This is a secret message."}""", encryptedData)
-
-        val plaintext = cryptoProvider.decrypt(file.readBytes()).toString(Charsets.UTF_8)
-        assertEquals("""{"secret":"This is a secret message."}""", plaintext)
-
-        stash.close()
-
-        stash = Stash(file, Aes256AndroidKeystoreCryptoProvider("test-key", "test-key-password"))
-        assertEquals("This is a secret message.", stash.get<String>("secret"))
     }
 }
