@@ -11,31 +11,19 @@
 </p>
 
 ## About
-Stash is a tiny Android DataStore that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens.
+Stash is a tiny [Android DataStore](https://developer.android.com/topic/libraries/architecture/datastore) that makes it easy to securely store small amounts of sensitive data. Under the hood, stash serializes data into JSON via [Kotlin Serialization](https://kotlinlang.org/docs/serialization.html) before being encrypted using [Android Keystore](https://developer.android.com/privacy-and-security/keystore). Stash is great for storing things like API keys or authentication tokens.
 
 ## Setup
-Make sure the project gradle includes jitpack repository.
+Add the jitpack repository to your project-level gradle settings:
 ```gradle
 repositories {
-    mavenCentral()
-    google()
+    //...
     maven { url 'https://jitpack.io' }
 }
 ```
 
-Add the stash dependency to the app module and configure for Java 17.
+Add the stash dependency to the app gradle module:
 ```gradle
-android {
-    // ...
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-}
-
 dependencies {
     // ...
     implementation 'com.jhight:stash:1.0.16'
