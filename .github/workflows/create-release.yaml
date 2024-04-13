@@ -22,11 +22,11 @@ jobs:
         run: echo VERSION=`git tag --list | tail -n 1` >> $GITHUB_ENV
         shell: bash
 
-      - name: Set up JDK 1.8
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'adopt'
-          java-version: '8'
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Add version to gradle.properties
         run: |
