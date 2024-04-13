@@ -26,7 +26,7 @@ Add the stash dependency to the app gradle module:
 ```gradle
 dependencies {
     // ...
-    implementation 'com.jhight:stash:1.0.20'
+    implementation 'com.jhight:stash:1.1.0'
 }
 ```
 
